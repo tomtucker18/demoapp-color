@@ -1,0 +1,61 @@
+:root {
+  --red: #d44040;
+  --orange: #e76a37;
+  --blue: #8686b5;
+  --green: #3f8b3f;
+  --pink: #e97bb7;
+  --gray: #838383;
+  --main-color: var(--red);
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1.8em;
+  background-color: var(--main-color);
+  color: white;
+}
+
+h1{
+  letter-spacing: 6pt;
+  text-transform: uppercase;
+  max-width: 60%;
+  margin: 0 auto 48px auto;
+}
+
+
+.content{
+  width: 80vw;
+  max-width: 1200px;
+  margin: 96px auto 0 auto;
+  text-align: center;
+}
+
+.message-container{
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.message-container p{
+  margin: 0;
+}
+
+#hostname {
+  font-family: monospace;
+  padding: 12px;
+  background-color: #222;
+  border-radius: 0.2em;
+}
+
+
+@media only screen and (max-width: 700px) {
+  body {
+    font-size: 1.2em;
+  }
+
+  h1 {
+    max-width: unset;
+  }
+}

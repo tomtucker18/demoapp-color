@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Hostname Display</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="content">
+    <h1>Hello World!</h1>
+    <div class="message-container">
+      <p>App is running on</p>
+      <!-- <p id="hostname">argo-rollouts-testapp-5fb8fbd598-zr4dl</p> -->
+      <p id="hostname"></p>
+    </div>
+  </div>
+  <script>
+    const hostnameElement = document.getElementById('hostname');
+    fetch('/hostname').then(response => {
+      if (response.ok)
+        return response.text();
+      throw new Error("Error while fetching hostname");
+    }).then(hostname => {
+      hostnameElement.textContent = hostname;
+    }).catch(error => {
+      hostnameElement.textContent = "[Error loading hostname]"
+      console.log(error)
+    });
+  </script>
+</body>
+
+</html>
