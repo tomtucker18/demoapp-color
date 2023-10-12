@@ -1,6 +1,6 @@
 # Demoapp Color
 
-This small NodeJS App is designed to use as a Demonstration Image.
+This small NodeJS app is designed to use as a demonstration image.
 
 ## Features
 
