@@ -2,6 +2,21 @@
 
 This small NodeJS app is designed to use as a demonstration image.
 
+## Run the app
+
+### Docker
+
+```shell
+docker run -d -p 8080:8080 betapenguin/demoapp-color:green
+```
+
+### Locally
+
+Make sure you have NodeJS v18 installed.
+- `npm install`
+- `node server.js`
+- Open <http://localhost:8080>
+
 ## Features
 
 ### Color
@@ -47,3 +62,18 @@ The following ENV variables can be set to configure the application.
 - **port** Port where the application should be started. Default (8080)
 - **version** App version Default(none)
 - **threshold** Threshold from where the successrate is considered successful Default (0.95)
+
+## Build
+
+There is a [`buildscript.sh`](./buildscript.sh) which automatically builds and publishes the app.
+
+**Be really careful with this script!**
+
+It builds and tags the docker images and pushes them to the Docker Hub. It overwrites the existing images. So make sure you only run the script if the changes you've applied are ready to be released.
+
+### Buildprocess
+
+1. Update the version field in the package.json file according to semver.
+2. Log into Docker Hub with `docker login -u betapenguin`
+3. Run the script `./buildscript.sh`
+4. Check if the images are uploaded and make sure they are working properly.
