@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Successrate</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="content">
+    <h1>Successrate</h1>
+    <p>You can manually adjust the successrate metric of the application</p>
+    <div class="badge">
+      <img src="ok.svg" alt="status" id="statusIcon">
+      <p>Successrate <span id="rateDisplay">95</span>%</p>
+    </div>
+    <div class="slidecontainer">
+      <input type="range" min="0" max="100" value="95" class="slider" id="myRange" onchange="change()">
+    </div>
+    <a class="button" onclick="save()">Save</a>
+  </div>
+</body>
+<script>
+  const display = document.getElementById("rateDisplay");
+  const slider = document.getElementById("myRange");
+  const icon = document.getElementById("statusIcon");
+
+  fetch("/api/successrate").then(response => {
+    if (response.ok) {
+      return response.text();
+    }
+  }).then(value => {
+    slider.value = value * 100;
+    change();
+  });
+
+  function change() {
+    display.innerText = slider.value;
+    if (slider.value >= 95) {
+      icon.src = "ok.svg";
+    } else {
+      icon.src = "error.svg";
+    }
+  }
+
+  function save() {
+    fetch("/set?" + new URLSearchParams({ value: slider.value / 100 }))
+  }
+</script>
+
+</html>
