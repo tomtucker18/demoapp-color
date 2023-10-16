@@ -4,7 +4,7 @@ This small NodeJS app is designed to use as a demonstration image.
 
 ## Features
 
-## Color
+### Color
 
 The app can be colored in 6 different colors. Each color version has it's own image tag.
 
@@ -19,4 +19,31 @@ The app can be colored in 6 different colors. Each color version has it's own im
 
 ### Hostname
 
-The app displays the hostname of the machine that is running the app.
+The app displays the hostname of the machine the app is running on.
+
+### Successrate Metric
+
+The app exposes a metric endpoint on `/metrics`. There is a custom gauge metric called **custom_success_rate**. It is a floating number between 0 and 1 that simulates the percentage of successful requests.
+
+```text
+# HELP custom_success_rate decimal success rate precentage 1 = 100%, 0.3 = 30%
+# TYPE custom_success_rate gauge
+custom_success_rate{version="1.0.0",hostname="example.local"} 0.31
+```
+
+The successrate value can be changed in two ways.
+
+1. GET Request to the url `/set?value=0.98`
+2. Over the GUI at `/successrate`
+
+## Version
+
+On the page `/version` you can see the version number that was configured over the env variable.
+
+## Configuration
+
+The following ENV variables can be set to configure the application.
+
+- **port** Port where the application should be started. Default (8080)
+- **version** App version Default(none)
+- **threshold** Threshold from where the successrate is considered successful Default (0.95)
