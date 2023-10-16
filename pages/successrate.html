@@ -26,19 +26,22 @@
   const display = document.getElementById("rateDisplay");
   const slider = document.getElementById("myRange");
   const icon = document.getElementById("statusIcon");
+  
+  let treshold = 95;
 
   fetch("/api/successrate").then(response => {
     if (response.ok) {
-      return response.text();
+      return response.json();
     }
-  }).then(value => {
-    slider.value = value * 100;
+  }).then(data => {
+    slider.value = data.successRate * 100;
+    treshold = data.treshold * 100;
     change();
   });
 
   function change() {
     display.innerText = slider.value;
-    if (slider.value >= 95) {
+    if (slider.value >= treshold) {
       icon.src = "ok.svg";
     } else {
       icon.src = "error.svg";

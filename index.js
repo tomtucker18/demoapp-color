@@ -8,7 +8,7 @@ const promBundle = require("express-prom-bundle");
 const app = express();
 const port = process.env.port ?? 8080;
 const version = process.env.version ?? "none";
-const successTreshold = 0.95;
+const successTreshold = Number.parseFloat(process.env.treshold) || 0.95;
 
 const customClient = new promClient.Gauge({
   name: "custom_success_rate",
@@ -50,17 +50,21 @@ app.get("/successrate", (req, res) => {
   res.send(htmlTemplate);
 });
 
+app.get("/version", (req, res) => {
+  res.send(version);
+});
+
+// api endpoints
 app.get("/api/successrate", (req, res) => {
-  res.send(successRate.toString());
+  res.send({
+    successRate: successRate,
+    treshold: successTreshold
+  });
 });
 
 app.get("/api/hostname", (req, res) => {
   const hostname = os.hostname();
   res.send(hostname);
-});
-
-app.get("/version", (req, res) => {
-  res.send(version);
 });
 
 app.get("/set", (req, res) => {
