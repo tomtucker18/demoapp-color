@@ -6,9 +6,9 @@ const promClient = require("prom-client");
 const promBundle = require("express-prom-bundle");
 
 const app = express();
-const port = process.env.port ?? 8080;
-const version = process.env.version ?? "none";
-const successTreshold = Number.parseFloat(process.env.treshold) || 0.95;
+const port = process.env.PORT ?? 8080;
+const version = process.env.VERSION ?? "none";
+const successThreshold = Number.parseFloat(process.env.THRESHOLD) || 0.95;
 
 const customClient = new promClient.Gauge({
   name: "custom_success_rate",
@@ -16,9 +16,9 @@ const customClient = new promClient.Gauge({
   labelNames: ["version", "hostname"],
 });
 
-let successRate = successTreshold;
+let successRate = successThreshold;
 
-setDefaultSuccessrate(customClient, successTreshold);
+setDefaultSuccessrate(customClient, successThreshold);
 
 const metricsMiddleware = promBundle({
   includeMethod: true,
@@ -58,7 +58,7 @@ app.get("/version", (req, res) => {
 app.get("/api/successrate", (req, res) => {
   res.send({
     successRate: successRate,
-    treshold: successTreshold
+    threshold: successThreshold
   });
 });
 
@@ -90,10 +90,10 @@ app.listen(port, () => {
  *
  * Based on the **successful** it decides if the number should be successful or not.
  * @param client metric client
- * @param {number} treshold treshold from which percentage the rate should be considered successful
+ * @param {number} threshold threshold from which percentage the rate should be considered successful
  */
-function setDefaultSuccessrate(client, treshold) {
-  let min = treshold;
+function setDefaultSuccessrate(client, threshold) {
+  let min = threshold;
   let max = 1;
   if (process.env.successful === "false") {
     max = min;

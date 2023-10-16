@@ -28,7 +28,7 @@
   const slider = document.getElementById("myRange");
   const icon = document.getElementById("statusIcon");
   
-  let treshold = 95;
+  let threshold = 95;
 
   fetch("/api/successrate").then(response => {
     if (response.ok) {
@@ -36,13 +36,13 @@
     }
   }).then(data => {
     slider.value = data.successRate * 100;
-    treshold = data.treshold * 100;
+    threshold = data.threshold * 100;
     change();
   });
 
   function change() {
     display.innerText = slider.value;
-    if (slider.value >= treshold) {
+    if (slider.value >= threshold) {
       icon.src = "ok.svg";
     } else {
       icon.src = "error.svg";
