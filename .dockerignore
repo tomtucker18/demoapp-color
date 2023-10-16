@@ -1,2 +1,8 @@
 node_modules
 npm-debug.log
+
+buildscript.sh
+README.md
+.git
+.vscode
+.editorconfig

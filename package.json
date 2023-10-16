@@ -2,9 +2,9 @@
   "name": "demoapp-color",
   "version": "1.0.0",
   "description": "Small NodeJS app designed to use as a demonstration image.",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
