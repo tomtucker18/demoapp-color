@@ -64,6 +64,11 @@ h1.short-heading {
   font-size: 0.75em;
 }
 
+.icon-button img{
+  margin: 30px;
+  height: 36px;
+}
+
 .button {
   position: relative;
   background-color: none;
