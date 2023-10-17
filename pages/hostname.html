@@ -14,25 +14,12 @@
     <h1 class="short-heading">Hello World!</h1>
     <div class="message-container">
       <p>App is running on</p>
-      <p id="hostname"></p>
+      <p id="hostname">[hostname not found]</p>
     </div>
     <a href="." class="icon-button">
       <img src="refresh.svg" alt="refresh">
     </a>
   </div>
-  <script>
-    const hostnameElement = document.getElementById('hostname');
-    fetch('/api/hostname').then(response => {
-      if (response.ok)
-        return response.text();
-      throw new Error("Error while fetching hostname");
-    }).then(hostname => {
-      hostnameElement.textContent = hostname;
-    }).catch(error => {
-      hostnameElement.textContent = "[Error loading hostname]"
-      console.log(error)
-    });
-  </script>
 </body>
 
 </html>

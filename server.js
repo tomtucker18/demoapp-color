@@ -4,11 +4,14 @@ const fs = require("fs");
 const path = require("path");
 const promClient = require("prom-client");
 const promBundle = require("express-prom-bundle");
+const { stringReplace } = require('string-replace-middleware');
 
 const app = express();
 const port = process.env.PORT ?? 8080;
 const version = process.env.VERSION ?? "none";
 const successThreshold = Number.parseFloat(process.env.THRESHOLD) || 0.95;
+const hostname = os.hostname();
+let successRate = successThreshold;
 
 const customClient = new promClient.Gauge({
   name: "custom_success_rate",
@@ -16,26 +19,24 @@ const customClient = new promClient.Gauge({
   labelNames: ["version", "hostname"],
 });
 
-let successRate = successThreshold;
-
-setDefaultSuccessrate(customClient, successThreshold);
-
 const metricsMiddleware = promBundle({
   includeMethod: true,
   includePath: true,
   includeStatusCode: true,
   includeUp: true,
-  customLabels: {
-    project_name: "hello_world",
-    project_type: "test_metrics_labels",
-  },
   promClient: {
     collectDefaultMetrics: {},
   },
 });
 
+setDefaultSuccessrateMetric(customClient, successThreshold);
+
 // add the prometheus middleware to all routes
 app.use(metricsMiddleware);
+
+app.use(stringReplace({
+  '[hostname not found]': hostname,
+}));
 
 // Serve static files from the 'public' folder
 app.use(express.static(path.join(__dirname, "public")));
@@ -62,11 +63,6 @@ app.get("/api/successrate", (req, res) => {
   });
 });
 
-app.get("/api/hostname", (req, res) => {
-  const hostname = os.hostname();
-  res.send(hostname);
-});
-
 app.get("/set", (req, res) => {
   let rate = Number(req.query["value"]);
   if (isNaN(rate) || rate > 1 || rate < 0) {
@@ -74,7 +70,7 @@ app.get("/set", (req, res) => {
   } else {
     successRate = rate;
     customClient.set(
-      { version: version, hostname: os.hostname() },
+      { version: version, hostname: hostname },
       successRate
     );
     res.send("new success_rate is " + successRate);
@@ -92,7 +88,7 @@ app.listen(port, () => {
  * @param client metric client
  * @param {number} threshold threshold from which percentage the rate should be considered successful
  */
-function setDefaultSuccessrate(client, threshold) {
+function setDefaultSuccessrateMetric(client, threshold) {
   let min = threshold;
   let max = 1;
   if (process.env.successful === "false") {
@@ -102,5 +98,5 @@ function setDefaultSuccessrate(client, threshold) {
   const defaultSuccessRate =
     Math.trunc(10000 * (Math.random() * (max - min) + min)) / 10000;
   successRate = defaultSuccessRate;
-  client.set({ version: version, hostname: os.hostname() }, defaultSuccessRate);
+  client.set({ version: version, hostname: hostname }, defaultSuccessRate);
 }
