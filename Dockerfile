@@ -40,7 +40,7 @@ EXPOSE 8080
 
 # Define environment variables with default values
 ENV PORT=8080
-ENV VERSION=1.0.0
+ENV VERSION=1.1.0
 ENV THRESHOLD=0.95
 
 # Start the Node.js application with the specified environment variables
