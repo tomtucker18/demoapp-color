@@ -4,7 +4,8 @@ const fs = require("fs");
 const path = require("path");
 const promClient = require("prom-client");
 const promBundle = require("express-prom-bundle");
-const { stringReplace } = require('string-replace-middleware');
+const stringReplace = require("string-replace-middleware");
+const nocache = require("nocache");
 
 const app = express();
 const port = process.env.PORT ?? 8080;
@@ -31,12 +32,18 @@ const metricsMiddleware = promBundle({
 
 setDefaultSuccessrateMetric(customClient, successThreshold);
 
+app.set("etag", false);
+
+app.use(nocache());
+
 // add the prometheus middleware to all routes
 app.use(metricsMiddleware);
 
-app.use(stringReplace({
-  '[hostname not found]': hostname,
-}));
+app.use(
+  stringReplace({
+    "[hostname not found]": hostname,
+  })
+);
 
 // Serve static files from the 'public' folder
 app.use(express.static(path.join(__dirname, "public")));
@@ -59,7 +66,7 @@ app.get("/version", (req, res) => {
 app.get("/api/successrate", (req, res) => {
   res.send({
     successRate: successRate,
-    threshold: successThreshold
+    threshold: successThreshold,
   });
 });
 
@@ -69,10 +76,7 @@ app.get("/set", (req, res) => {
     res.status(400).send("invalid success_rate").end();
   } else {
     successRate = rate;
-    customClient.set(
-      { version: version, hostname: hostname },
-      successRate
-    );
+    customClient.set({ version: version, hostname: hostname }, successRate);
     res.send("new success_rate is " + successRate);
   }
 });
