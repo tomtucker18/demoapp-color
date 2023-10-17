@@ -26,8 +26,8 @@ for color in "${colors[@]}"; do
     docker build -t "$image_name:$color" .
 
     # Push the Docker image
-    echo "==Uploading image to docker hub"
-    # docker push "$image_name:$color"
+    echo "== Uploading image to docker hub"
+    docker push "$image_name:$color"
 done
 
 # Manage non-color tags
@@ -35,7 +35,7 @@ docker image rm "$image_name:latest"
 docker image rm "$image_name:$version"
 docker tag "$image_name:${colors[0]}" "$image_name:latest"
 docker tag "$image_name:${colors[0]}" "$image_name:$version"
-docker push "$image_name:$color"
+docker push "$image_name:latest"
 docker push "$image_name:$version"
 
 echo "== Done building images"
