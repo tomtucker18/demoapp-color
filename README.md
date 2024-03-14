@@ -64,9 +64,9 @@ The following ENV variables can be set to configure the application.
 
 | Name          | Description                                                   | Default Value             |
 | ------------- | ------------------------------------------------------------- | ------------------------- |
-| **port**      | Port where the application should be started                  | 8080                      |
-| **version**   | App version                                                   | image version (eg. 1.3.1) |
-| **threshold** | Threshold from where the successrate is considered successful | 0.95                      |
+| **PORT**      | Port where the application should be started                  | 8080                      |
+| **VERSION**   | App version                                                   | image version (eg. 1.3.1) |
+| **THRESHOLD** | Threshold from where the successrate is considered successful | 0.95                      |
 
 ## Build
 
