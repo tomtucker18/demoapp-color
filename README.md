@@ -1,6 +1,6 @@
-# Demoapp Color
+# Demoapp Color 🎨
 
-This small NodeJS app is designed to be used as a demonstration image.
+This small Node.js app is designed to serve as a demonstration image on Kubernetes or other container platforms.
 
 ![demoapp-color-screenshot](https://github.com/tomtucker18/demoapp-color/assets/48351489/c95ee065-5318-4641-80c6-1355995d31fd)
 
