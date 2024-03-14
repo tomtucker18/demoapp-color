@@ -4,7 +4,6 @@ This small NodeJS app is designed to be used as a demonstration image.
 
 ![demoapp-color-screenshot](https://github.com/tomtucker18/demoapp-color/assets/48351489/c95ee065-5318-4641-80c6-1355995d31fd)
 
-
 ## Run the app
 
 ### Docker
@@ -15,7 +14,8 @@ docker run -d -p 8080:8080 betapenguin/demoapp-color:green
 
 ### Locally
 
-Make sure you have NodeJS v18 installed.
+Make sure you have NodeJS v20 installed.
+
 - `npm install`
 - `node server.js`
 - Open <http://localhost:8080>
@@ -54,7 +54,7 @@ The successrate value can be changed in two ways.
 1. GET Request to the url `/set?value=0.98`
 2. Over the GUI at `/successrate`
 
-## Version
+### Version
 
 On the page `/version` you can see the version number that was configured over the env variable.
 
@@ -62,9 +62,11 @@ On the page `/version` you can see the version number that was configured over t
 
 The following ENV variables can be set to configure the application.
 
-- **port** Port where the application should be started. Default (8080)
-- **version** App version Default(none)
-- **threshold** Threshold from where the successrate is considered successful Default (0.95)
+| Name          | Description                                                   | Default Value             |
+| ------------- | ------------------------------------------------------------- | ------------------------- |
+| **PORT**      | Port where the application should be started                  | 8080                      |
+| **VERSION**   | App version                                                   | image version (eg. 1.3.1) |
+| **THRESHOLD** | Threshold from where the successrate is considered successful | 0.95                      |
 
 ## Build
 
