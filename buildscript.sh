@@ -39,8 +39,9 @@ for color in "${colors[@]}"; do
     docker tag $image_name:$version-$color $image_name:$color 
 
     # Push the Docker images
-    log_info "Uploading image to docker hub"
+    log_info "Uploading images to docker hub"
     docker push "$image_name:$color"
+    docker push "$image_name:$version-$color"
 done
 
 # Manage non-color tags
