@@ -68,7 +68,7 @@ The following ENV variables can be set to configure the application.
 | **VERSION**   | App version                                                   | image version (eg. 1.3.1) |
 | **THRESHOLD** | Threshold from where the successrate is considered successful | 0.95                      |
 
-## Build
+## Build & Publish
 
 There is a [`buildscript.sh`](./buildscript.sh) which automatically builds and publishes the app.
 
@@ -79,6 +79,8 @@ It builds and tags the docker images and pushes them to the Docker Hub. It overw
 ### Buildprocess
 
 1. Update the version field in the package.json file according to semver.
-2. Log into Docker Hub with `docker login -u betapenguin`
-3. Run the script `./buildscript.sh`
-4. Check if the images are uploaded and make sure they are working properly.
+2. Update the `ENV VERSION` variable in the Dockerfile to the same version like package.json
+3. Commit all the changes and create a version tag.
+4. Log into Docker Hub with `docker login -u betapenguin`
+5. Run the script `./buildscript.sh`
+6. Check if the images are uploaded and make sure they are working properly.
