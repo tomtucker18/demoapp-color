@@ -15,7 +15,7 @@ log_info "Buildscript started for v$version"
 
 # Remove old images
 if docker images --format '{{.Repository}}:{{.Tag}}' | grep -q "$image_name"; then
-    If one or more images exist, remove them
+    # If one or more images exist, remove them
     docker rmi $(docker images --format '{{.Repository}}:{{.Tag}}' | grep "$image_name")
     log_info "Docker images with name '$image_name' removed."
 else

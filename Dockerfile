@@ -1,5 +1,5 @@
 # Use an official Node.js runtime as the base image
-FROM node:hydrogen-alpine as builder
+FROM node:krypton-alpine AS builder
 
 # Add curl to builder image
 RUN apk --no-cache add curl
@@ -22,13 +22,13 @@ RUN npm install
 COPY . .
 
 # Remove development dependencies
-RUN npm prune --production
+RUN npm prune --omit=dev
 
 # Run node prune
 RUN /usr/local/bin/node-prune
 
 # Create actual image
-FROM node:hydrogen-alpine
+FROM node:krypton-alpine
 
 WORKDIR /app
 
@@ -40,7 +40,7 @@ EXPOSE 8080
 
 # Define environment variables with default values
 ENV PORT=8080
-ENV VERSION=1.3.2
+ENV VERSION=1.4.0
 ENV THRESHOLD=0.95
 
 # Start the Node.js application with the specified environment variables

@@ -2,7 +2,7 @@ const express = require("express");
 const os = require("os");
 const fs = require("fs");
 const path = require("path");
-const promClient = require("prom-client");
+const promClient = require("@prometheus-io/client");
 const promBundle = require("express-prom-bundle");
 const stringReplace = require("string-replace-middleware");
 const nocache = require("nocache");
@@ -20,14 +20,16 @@ const customClient = new promClient.Gauge({
   labelNames: ["version", "hostname"],
 });
 
+promClient.collectDefaultMetrics();
+
+// express-prom-bundle uses prom-client internally, so hand it the registry of
+// @prometheus-io/client to expose all metrics on the same /metrics endpoint
 const metricsMiddleware = promBundle({
   includeMethod: true,
   includePath: true,
   includeStatusCode: true,
   includeUp: true,
-  promClient: {
-    collectDefaultMetrics: {},
-  },
+  promRegistry: promClient.register,
 });
 
 setDefaultSuccessrateMetric(customClient, successThreshold);

@@ -14,7 +14,7 @@ docker run -d -p 8080:8080 betapenguin/demoapp-color:green
 
 ### Locally
 
-Make sure you have NodeJS v20 installed.
+Make sure you have NodeJS v24 installed.
 
 - `npm install`
 - `node server.js`
@@ -65,7 +65,7 @@ The following ENV variables can be set to configure the application.
 | Name          | Description                                                   | Default Value             |
 | ------------- | ------------------------------------------------------------- | ------------------------- |
 | **PORT**      | Port where the application should be started                  | 8080                      |
-| **VERSION**   | App version                                                   | image version (eg. 1.3.1) |
+| **VERSION**   | App version                                                   | image version (eg. 1.4.0) |
 | **THRESHOLD** | Threshold from where the successrate is considered successful | 0.95                      |
 
 ## Build & Publish
