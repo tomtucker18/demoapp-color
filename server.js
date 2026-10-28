@@ -51,6 +51,11 @@ app.use(
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
+  // browsers prefer html, clients like curl accept anything and get plain text
+  res.vary("Accept");
+  if (req.accepts(["text", "html"]) === "text") {
+    return res.type("text").send(`${hostname} ${version}\n`);
+  }
   const htmlTemplate = fs.readFileSync("./pages/hostname.html", "utf8");
   res.send(htmlTemplate);
 });
