@@ -5,7 +5,7 @@ log_info() {
 }
 
 colors=("red" "orange" "blue" "green" "pink" "gray")
-css_file="./public/style.css"
+css_file="./pages/style.css"
 docker_file="./Dockerfile"
 image_name="betapenguin/demoapp-color"
 

@@ -12,6 +12,13 @@ const port = process.env.PORT ?? 8080;
 const version = process.env.VERSION ?? "none";
 const successThreshold = Number.parseFloat(process.env.THRESHOLD) || 0.95;
 const hostname = os.hostname();
+// inline the stylesheet into the pages, so the color always comes from the same
+// pod as the hostname (a separate style.css request may hit another pod during
+// a rolling update)
+const stylesheet = fs.readFileSync(
+  path.join(__dirname, "pages", "style.css"),
+  "utf8"
+);
 let successRate = successThreshold;
 
 const customClient = new promClient.Gauge({
@@ -56,13 +63,11 @@ app.get("/", (req, res) => {
   if (req.accepts(["text", "html"]) === "text") {
     return res.type("text").send(`${hostname} ${version}\n`);
   }
-  const htmlTemplate = fs.readFileSync("./pages/hostname.html", "utf8");
-  res.send(htmlTemplate);
+  res.send(renderPage("hostname.html"));
 });
 
 app.get("/successrate", (req, res) => {
-  const htmlTemplate = fs.readFileSync("./pages/successrate.html", "utf8");
-  res.send(htmlTemplate);
+  res.send(renderPage("successrate.html"));
 });
 
 app.get("/version", (req, res) => {
@@ -91,6 +96,19 @@ app.get("/set", (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+
+/**
+ * Reads an html page and replaces the stylesheet link with the inlined stylesheet.
+ * @param {string} page file name inside the pages folder
+ * @returns {string} html of the page
+ */
+function renderPage(page) {
+  const htmlTemplate = fs.readFileSync(path.join(__dirname, "pages", page), "utf8");
+  return htmlTemplate.replace(
+    '<link rel="stylesheet" href="style.css">',
+    () => `<style>\n${stylesheet}\n</style>`
+  );
+}
 
 /**
  * Sets the custom successrate metric with a random value.

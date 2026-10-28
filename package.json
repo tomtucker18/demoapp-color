@@ -1,6 +1,6 @@
 {
   "name": "demoapp-color",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Small NodeJS app designed to use as a demonstration image.",
   "main": "server.js",
   "scripts": {
