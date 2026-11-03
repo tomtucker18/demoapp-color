@@ -64,10 +64,18 @@ Clients that don't explicitly ask for HTML (like `curl`, `wget` or `httpie`) get
 
 ```shell
 $ curl localhost:8080
-e1-k8s-demoapp-color-800a726e170b 1.5.1-red
+e1-k8s-demoapp-color-800a726e170b 1.6.0-red
 
 # force the HTML page
 $ curl -H "Accept: text/html" localhost:8080
+```
+
+### Logs
+
+Every request to `/` is logged to stdout with the hostname, version and color of the serving instance, which makes it easy to follow which pod answered during a rolling update.
+
+```text
+GET / hostname=e1-k8s-demoapp-color-800a726e170b version=1.6.0-red color=red
 ```
 
 ## Configuration
@@ -77,7 +85,7 @@ The following ENV variables can be set to configure the application.
 | Name          | Description                                                   | Default Value             |
 | ------------- | ------------------------------------------------------------- | ------------------------- |
 | **PORT**      | Port where the application should be started                  | 8080                      |
-| **VERSION**   | App version                                                   | image version (eg. 1.5.1) |
+| **VERSION**   | App version                                                   | image version (eg. 1.6.0) |
 | **THRESHOLD** | Threshold from where the successrate is considered successful | 0.95                      |
 
 ## Build & Publish

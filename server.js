@@ -19,6 +19,9 @@ const stylesheet = fs.readFileSync(
   path.join(__dirname, "pages", "style.css"),
   "utf8"
 );
+// the buildscript bakes the color into the stylesheet as --main-color
+const color =
+  stylesheet.match(/--main-color:\s*var\(--([\w-]+)\)/)?.[1] ?? "unknown";
 let successRate = successThreshold;
 
 const customClient = new promClient.Gauge({
@@ -60,6 +63,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.get("/", (req, res) => {
   // browsers prefer html, clients like curl accept anything and get plain text
   res.vary("Accept");
+  console.log(`GET / hostname=${hostname} version=${version} color=${color}`);
   if (req.accepts(["text", "html"]) === "text") {
     return res.type("text").send(`${hostname} ${version}\n`);
   }
